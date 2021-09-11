@@ -1,13 +1,14 @@
-/*using System;
+using System;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.IO;
+using NodaTime;
 
 namespace RemoteControlV3.Logging
 {
     public class Logger : IDisposable
     {
-        public LogLevel ConsoleVerbosity = LogLevel.Info;
+        public static LogLevel ConsoleVerbosity = LogLevel.Info;
 
         private Thread logThread;//the thread looping and saving logs from the queue
 
@@ -17,21 +18,13 @@ namespace RemoteControlV3.Logging
 
         public bool IsLogging => logThread.ThreadState == ThreadState.Running;
 
-        private StreamWriter runtimeLog;
+        private StreamWriter log;
 
-        private StreamWriter networkLog;
-
-        private StreamWriter commandsLog;
-
-        public void Initialize()
+        public Logger()
         {
             logQueue = new ConcurrentQueue<LogMessage>();
 
-            Directory.CreateDirectory("Logs");
-
-            runtimeLog = File.AppendText(Path.Combine("Logs", "runtime.log"));
-            networkLog = File.AppendText(Path.Combine("Logs", "network.log"));
-            commandsLog = File.AppendText(Path.Combine("Logs", "commands.log"));
+            log = File.AppendText("log.log");
 
             logThread = new Thread(new ThreadStart(LogLoop));
             logThread.Name = "LoggerThread";
@@ -41,13 +34,7 @@ namespace RemoteControlV3.Logging
 
         public void Log(LogType type, LogLevel severity, string message)
         {
-            LogMessage m = new LogMessage()
-            {
-                LogTime = DateTime.Now,
-                Type = type,
-                Severity = severity,
-                Message = message
-            };
+            LogMessage m = new LogMessage(message, type, severity);
             logQueue.Enqueue(m);
         }
 
@@ -56,23 +43,23 @@ namespace RemoteControlV3.Logging
             logQueue.Enqueue(message);
         }
 
+        public void Log(string message)
+        {
+            LogMessage m = new LogMessage(message);
+            logQueue.Enqueue(m);
+        }
+
         public void Dispose()
         {
             logging = false;
-            runtimeLog.Flush();
-            runtimeLog.Close();
-            networkLog.Flush();
-            networkLog.Close();
-            commandsLog.Flush();
-            commandsLog.Close();
+            log.Flush();
+            log.Close();
         }
 
 
         public void Flush()
         {
-            runtimeLog.Flush();
-            networkLog.Flush();
-            commandsLog.Flush();
+            log.Flush();
         }
 
         private void LogLoop()
@@ -98,44 +85,13 @@ namespace RemoteControlV3.Logging
         {
             if ((int)ConsoleVerbosity <= (int)message.Severity)//log to console only if verbosity is lower or equal
             {
-                Console.Write("[");
-                Console.ForegroundColor = GetColor(message.Severity);
-                Console.Write(message.Severity.ToString().ToUpper());
-                Console.ResetColor();
-                Console.Write($"] | [");
-                Console.ForegroundColor = GetColor(message.Type);
-                Console.Write(message.Type.ToString().ToUpper());
-                Console.ResetColor();
-                Console.WriteLine($"] {message.LogTime} | {message.Message.Replace("\n", "").Replace("\r", "")}");
+                Console.WriteLine(log.ToString());
             }
         }
 
         private void DiskLog(LogMessage message)
         {
-            string log = $"[{message.Severity.ToString().ToUpper()}] | {message.LogTime} | {message.Message.Replace("\n", "").Replace("\r", "")}\n";
-            switch (message.Type)
-            {
-                case LogType.Runtime:
-                    {
-                        runtimeLog.Write(log);
-                        break;
-                    }
-                case LogType.Network:
-                    {
-                        networkLog.Write(log);
-                        break;
-                    }
-                case LogType.Commands:
-                    {
-                        commandsLog.Write(log);
-                        break;
-                    }
-                case LogType.Database:
-                    {
-                        databaseLog.Write(log);
-                        break;
-                    }
-            }
+            log.Write(message.ToString());
         }
     }
-}*/
+}

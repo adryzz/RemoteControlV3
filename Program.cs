@@ -1,12 +1,19 @@
 ﻿using System;
+using RemoteControlV3.Logging;
 
 namespace RemoteControlV3
 {
-    class Program
+    public static class Program
     {
+        public static Configuration Config;
+
+        public static Logger Logger;
+
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Logger = new Logger();
+            Logger.Log("Application Started!");
+            Logger.Flush();
         }
     }
 }
