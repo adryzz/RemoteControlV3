@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using Newtonsoft.Json;
 using RemoteControlV3.Logging;
+using RemoteControlV3.Connection;
 using RemoteControlV3.Utils;
 
 namespace RemoteControlV3
@@ -16,6 +17,8 @@ namespace RemoteControlV3
         public int LogSecret { get; set; } = SHARED_SECRET;
 
         public LogLevel LogLevel { get; set; } = LogLevel.Info;
+
+        public ConnectionInfo ConnectionSettings { get; set; } = new ConnectionInfo();
 
         public static Configuration FromFile(string fileName)
         {

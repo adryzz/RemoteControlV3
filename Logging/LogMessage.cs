@@ -16,10 +16,14 @@ namespace RemoteControlV3.Logging
 
         public LogMessage(string text, LogType type = LogType.Runtime, LogLevel severity = LogLevel.Info)
         {
-            Instant now = SystemClock.Instance.GetCurrentInstant();
-            int secret = now.ToUnixTimeSeconds().GetHashCode();
+            //get time and round it up to the nearest second
+            Instant now = Instant.FromUnixTimeSeconds(SystemClock.Instance.GetCurrentInstant().ToUnixTimeSeconds());
+            int secret = (now.ToUnixTimeSeconds() + Program.Config.LogSecret).GetHashCode();
             byte[] encoded = BinaryUtils.Encode(text, secret);
             Message = Convert.ToBase64String(encoded);
+            LogTime = now;
+            Type = type;
+            Severity = severity;
         }
 
         public override string ToString()

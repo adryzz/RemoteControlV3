@@ -85,7 +85,7 @@ namespace RemoteControlV3.Logging
         {
             if ((int)ConsoleVerbosity <= (int)message.Severity)//log to console only if verbosity is lower or equal
             {
-                Console.WriteLine(log.ToString());
+                Console.WriteLine(message.ToString());
             }
         }
 
