@@ -75,6 +75,11 @@ namespace RemoteControlV3.Commands
                                 return;
                             }
                         }
+                        else
+                        {
+                            Console.WriteLine("Unsupported platform");
+                            return;
+                        }
                     }
                 }
                 Console.WriteLine("Unknown command");
