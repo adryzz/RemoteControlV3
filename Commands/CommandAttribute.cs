@@ -3,7 +3,7 @@ using RemoteControlV3;
 
 namespace RemoteControlV3.Commands
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]  
+    [AttributeUsage(AttributeTargets.Class)]  
     public class CommandAttribute : Attribute  
     {  
         public string Name;
