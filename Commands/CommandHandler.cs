@@ -82,8 +82,8 @@ namespace RemoteControlV3.Commands
                         }
                     }
                 }
-                Console.WriteLine("Unknown command");
             }
+            Console.WriteLine("Unknown command");
         }
 
         private void run(Type t, string[] args)
