@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Reflection;
+using RemoteControlV3.Commands;
 using RemoteControlV3.Logging;
 
 namespace RemoteControlV3
@@ -9,6 +11,12 @@ namespace RemoteControlV3
 
         public static Logger Logger;
 
+        public static CommandHandler CommandHandler;
+
+        public static Platform Platform;
+
+        public static PermissionLevel PermissionLevel;
+        
         static void Main(string[] args)
         {
             Config = new Configuration();
@@ -16,9 +24,18 @@ namespace RemoteControlV3
             {
                 Config = Configuration.FromFile("config.bin");
             }
+            else
+            {
+                Config.Save("config.bin");
+            }
             Logger = new Logger();
             Logger.Log("Application Started!");
-            System.Threading.Thread.Sleep(5000);
+            CommandHandler = new CommandHandler();
+            while (true)
+            {
+                CommandHandler.Parse(Console.ReadLine());
+                System.Threading.Thread.Sleep(100);
+            }
             Logger.Flush();
         }
     }

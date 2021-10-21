@@ -4,7 +4,7 @@ namespace RemoteControlV3.Commands
 {
     public abstract class Command
     {
-        public void Run()
+        public virtual void Run(string[] args)
         {
         }
     }

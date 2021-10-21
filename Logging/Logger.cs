@@ -48,6 +48,12 @@ namespace RemoteControlV3.Logging
             LogMessage m = new LogMessage(message);
             logQueue.Enqueue(m);
         }
+        
+        public void Log(object o)
+        {
+            LogMessage m = new LogMessage(o.ToString());
+            logQueue.Enqueue(m);
+        }
 
         public void Dispose()
         {
