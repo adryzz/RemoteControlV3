@@ -73,6 +73,7 @@ namespace RemoteControlV3.Logging
                     if (!logQueue.TryDequeue(out message))
                     {
                         Thread.Sleep(50);//if queue is busy, wait 50ms
+                        continue;
                     }
                     ConsoleLog(message);
                     DiskLog(message);
