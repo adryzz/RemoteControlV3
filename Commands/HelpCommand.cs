@@ -25,7 +25,7 @@ namespace RemoteControlV3.Commands
                     CommandAttribute attribute = t.GetCustomAttribute<CommandAttribute>();
                     builder.AppendLine($"{attribute.Name} - {description}");
                 }
-                Console.WriteLine(builder.ToString());
+                Console.Write(builder.ToString());
             }
             else
             {
