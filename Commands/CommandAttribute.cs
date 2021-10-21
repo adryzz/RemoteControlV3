@@ -1,11 +1,15 @@
-[System.AttributeUsage(System.AttributeTargets.Class, AllowMultiple = true)  
-]  
-public class CommandAttribute : System.Attribute  
-{  
-    public string Mame;
-  
-    public CommandAttribute(string name)  
+using System;
+
+namespace RemoteControlV3.Commands
+{
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]  
+    public class CommandAttribute : Attribute  
     {  
-        Name = name;
-    }  
+        public string Name;
+  
+        public CommandAttribute(string name)  
+        {  
+            Name = name;
+        }  
+    }
 }
