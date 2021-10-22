@@ -41,6 +41,10 @@ namespace RemoteControlV3.Commands
                         {
                             helpMessage = helpAttribute.HelpMessage;
                         }
+                        else if (helpAttribute != null)
+                        {
+                            helpMessage = helpAttribute.CommandDescription + "\nThis command has no extended help message";
+                        }
                         Console.WriteLine($"Help for command {attribute.Name}:\n{helpMessage}");
                         return;
                     }
