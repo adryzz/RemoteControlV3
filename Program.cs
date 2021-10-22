@@ -25,6 +25,8 @@ namespace RemoteControlV3
         public static Platform Platform;
 
         public static PermissionLevel PermissionLevel;
+
+        public static object Memory = null;
         
         static void Main(string[] args)
         {
