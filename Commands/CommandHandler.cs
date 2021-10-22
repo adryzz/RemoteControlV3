@@ -71,19 +71,19 @@ namespace RemoteControlV3.Commands
                             }
                             else
                             {
-                                Console.WriteLine("Missing permissions");
+                                Program.ConnectionWriter.WriteLine("Missing permissions");
                                 return;
                             }
                         }
                         else
                         {
-                            Console.WriteLine("Unsupported platform");
+                            Program.ConnectionWriter.WriteLine("Unsupported platform");
                             return;
                         }
                     }
                 }
             }
-            Console.WriteLine("Unknown command");
+            Program.ConnectionWriter.WriteLine("Unknown command");
         }
 
         private void run(Type t, string[] args)

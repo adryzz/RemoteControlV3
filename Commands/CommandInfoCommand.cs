@@ -12,7 +12,7 @@ namespace RemoteControlV3.Commands
         {
             if (args.Length < 1)
             {
-                Console.WriteLine("Too little parameters");
+                Program.ConnectionWriter.WriteLine("Too little parameters");
                 throw new ArgumentException();
             }
 
@@ -28,7 +28,7 @@ namespace RemoteControlV3.Commands
                     builder.AppendLine("Source: " + (builtin ? "Built-in" : ("External - " + t.Assembly.FullName)));
                     builder.AppendLine("Supported platforms: " + attribute.Platform);
                     builder.AppendLine("Required permission level: " + attribute.PermissionLevel);
-                    Console.Write(builder.ToString());
+                    Program.ConnectionWriter.Write(builder.ToString());
                     return;
                 }
             }

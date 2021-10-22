@@ -1,7 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
 using RemoteControlV3.Commands;
+using RemoteControlV3.Connection;
 using RemoteControlV3.Logging;
 using RemoteControlV3.Utils;
 
@@ -15,6 +18,10 @@ namespace RemoteControlV3
 
         public static CommandHandler CommandHandler;
 
+        public static SerialConnection Connection;
+        
+        public static TextWriter ConnectionWriter;
+
         public static Platform Platform;
 
         public static PermissionLevel PermissionLevel;
@@ -22,7 +29,7 @@ namespace RemoteControlV3
         static void Main(string[] args)
         {
             Config = new Configuration();
-            if (System.IO.File.Exists("config.bin"))
+            if (File.Exists("config.bin"))
             {
                 Config = Configuration.FromFile("config.bin");
             }
@@ -32,6 +39,17 @@ namespace RemoteControlV3
             }
             Logger = new Logger();
             Logger.Log("Application Started!");
+            try
+            {
+                Connection = new SerialConnection(Config.ConnectionSettings);
+            }
+            catch (Exception e)
+            {
+                Logger.Log(e);
+                #if DEBUG
+                ConnectionWriter = Console.Out;     
+                #endif
+            }
             CommandHandler = new CommandHandler();
             Platform = GetPlatform();
             PermissionLevel = SecurityUtils.GetPermissionLevel();

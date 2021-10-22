@@ -9,7 +9,7 @@ namespace RemoteControlV3.Commands
     {
         public override void Run(string[] args)
         {
-            Console.WriteLine(Assembly.GetEntryAssembly().GetName().Version);
+            Program.ConnectionWriter.WriteLine(Assembly.GetEntryAssembly().GetName().Version);
         }
     }
 }

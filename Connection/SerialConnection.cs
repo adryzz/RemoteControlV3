@@ -1,4 +1,6 @@
 using System;
+using System.CodeDom.Compiler;
+using System.IO;
 using System.IO.Ports;
 
 namespace RemoteControlV3.Connection
@@ -15,6 +17,7 @@ namespace RemoteControlV3.Connection
                 Program.CommandHandler.Parse(Port.ReadExisting());
             };
             Port.Open();
+            Program.ConnectionWriter = new StreamWriter(Port.BaseStream, Port.Encoding);
         }
 
         public void Dispose()

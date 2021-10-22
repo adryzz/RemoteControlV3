@@ -25,7 +25,7 @@ namespace RemoteControlV3.Commands
                     CommandAttribute attribute = t.GetCustomAttribute<CommandAttribute>();
                     builder.AppendLine($"{attribute.Name} - {description}");
                 }
-                Console.Write(builder.ToString());
+                Program.ConnectionWriter.Write(builder.ToString());
             }
             else
             {
@@ -45,11 +45,11 @@ namespace RemoteControlV3.Commands
                         {
                             helpMessage = helpAttribute.CommandDescription + "\nThis command has no extended help message";
                         }
-                        Console.WriteLine($"Help for command {attribute.Name}:\n{helpMessage}");
+                        Program.ConnectionWriter.WriteLine($"Help for command {attribute.Name}:\n{helpMessage}");
                         return;
                     }
                 }
-                Console.WriteLine("No command found");
+                Program.ConnectionWriter.WriteLine("No command found");
             }
         }
     }
